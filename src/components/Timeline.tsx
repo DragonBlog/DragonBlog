@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { motion, stagger, useAnimate, useInView } from "motion/react";
+import { motion, useAnimate, useInView } from "motion/react";
 
 type Blog = {
   id: string;
