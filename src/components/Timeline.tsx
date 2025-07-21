@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import React, { useEffect, useRef } from "react";
+import { motion, useAnimation } from "framer-motion";
 import { useInView } from "framer-motion";
 
 type Blog = {
@@ -32,7 +32,7 @@ const formatDate = (date: Date | undefined) => {
 
 const Timeline = ({ blogs }: TimelineProps) => {
   const controls = useAnimation();
-  const ref = React.useRef(null);
+  const ref = useRef(null);
   const isInView = useInView(ref);
 
   useEffect(() => {
