@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { motion, useAnimation } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, stagger, useAnimate, useInView } from "motion/react";
 
 type Blog = {
   id: string;
@@ -31,30 +30,25 @@ const formatDate = (date: Date | undefined) => {
 };
 
 const Timeline = ({ blogs }: TimelineProps) => {
-  const controls = useAnimation();
+  const [scope, animate] = useAnimate();
   const ref = useRef(null);
   const isInView = useInView(ref);
 
   useEffect(() => {
     if (isInView) {
-      controls.start({ opacity: 1, transition: { staggerChildren: 0.1 } });
+      animate("li", { opacity: 1, y: 0 });
     }
-  }, [isInView, controls]);
+  }, [isInView]);
 
   return (
-    <motion.ul
-      ref={ref}
-      initial={{ opacity: 0 }}
-      animate={controls}
-      className="space-y-4"
-    >
+    <motion.ul ref={scope}>
       {blogs.map((blog, index) => (
         <motion.li
           key={blog.id}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1 }}
-          className="text-red-500 text-2xl"
+          transition={{ delay: index * 0.15 }}
+          className="text-red-500 text-xl  px-4 py-2  "
         >
           {blog.data.title} ----------- {formatDate(blog.data.date)}
         </motion.li>
