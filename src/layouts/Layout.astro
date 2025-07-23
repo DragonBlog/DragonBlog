@@ -1,9 +1,9 @@
 ---
-import { TITLE } from "astro:env/client";
-import "@/styles/global.css";
-import { Header } from "@/components/header";
-import { ClientRouter } from "astro:transitions";
 import { Provider } from "@/components/provider";
+import "@/styles/global.css";
+import { TITLE } from "astro:env/client";
+import { ClientRouter } from "astro:transitions";
+const pathname = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -12,11 +12,11 @@ import { Provider } from "@/components/provider";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{TITLE}</title>
+    <script src="/iconfont.js" is:inline></script>
     <ClientRouter />
   </head>
-  <body>
-    <Provider client:load transition:persist />
-    <Header client:load />
+  <body class="relative">
+    <Provider pathname={pathname} client:load transition:persist />
     <slot />
   </body>
 </html>

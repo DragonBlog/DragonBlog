@@ -5,13 +5,22 @@ import { useStoreWithEqualityFn } from "zustand/traditional";
 import { createStore } from "zustand/vanilla";
 
 export const appStore = createStore(
-  combine({ theme: "light", isMobile: false, isAutoTheme: true }, (set) => ({
-    setTheme: (theme: string) => set({ theme }),
-    toggleTheme: () =>
-      set((state) => ({ theme: state.theme === "light" ? "dark" : "light" })),
-    setIsMobile: (isMobile: boolean) => set({ isMobile }),
-    setIsAutoTheme: (isAutoTheme: boolean) => set({ isAutoTheme }),
-  }))
+  combine(
+    {
+      theme: "light",
+      isMobile: false,
+      isAutoTheme: true,
+      pathname: "/",
+    },
+    (set) => ({
+      setTheme: (theme: string) => set({ theme }),
+      toggleTheme: () =>
+        set((state) => ({ theme: state.theme === "light" ? "dark" : "light" })),
+      setIsMobile: (isMobile: boolean) => set({ isMobile }),
+      setIsAutoTheme: (isAutoTheme: boolean) => set({ isAutoTheme }),
+      setPathname: (pathname: string) => set({ pathname }),
+    })
+  )
 );
 
 export type AppStore = ExtractState<typeof appStore>;
