@@ -68,7 +68,7 @@
     {
       "name": "首页",
       "link": "/",
-      "icon": "icon-pantone"
+      "icon": "icon-circleyuanquan"
     },
     {
       "name": "文章",
@@ -77,23 +77,25 @@
       "children": [
         {
           "name": "分类",
-          "link": "/categories"
+          "link": "/categories",
+          "icon": "icon-category"
         },
         {
           "name": "标签",
-          "link": "/tags"
+          "link": "/tags",
+          "icon": "icon-tags"
         }
       ]
     },
     {
       "name": "时间轴",
       "link": "/timeline",
-      "icon": "icon-ghost"
+      "icon": "icon-uniFE"
     },
     {
       "name": "关于",
       "link": "/about",
-      "icon": "icon-ghost"
+      "icon": "icon-about"
     }
   ],
   "posts": {

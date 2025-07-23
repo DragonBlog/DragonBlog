@@ -10,12 +10,12 @@ export const IconFont = ({
   return (
     <svg
       className={clsx(
-        "fill-[currentColor] overflow-hidden [vertical-align:-0.15rem] w-4 h-4",
+        "fill-[currentColor] overflow-hidden [vertical-align:-0.15rem] inline-block w-4 h-4",
         className
       )}
       aria-hidden="true"
     >
-      <use xlinkHref={`#icon-${name}`}></use>
+      <use xlinkHref={`#${name}`}></use>
     </svg>
   );
 };

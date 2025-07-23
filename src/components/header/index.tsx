@@ -6,10 +6,10 @@ export const Header = () => {
 
   return (
     <div>
-      <IconFont name="circleyuanquan" className="text-primary w-10 h-10" />
-      <IconFont name="archive" />
-      <IconFont name="uniFE" />
-      <IconFont name="tags" />
+      <IconFont name="icon-circleyuanquan" className="text-primary w-10 h-10" />
+      <IconFont name="icon-archive" />
+      <IconFont name="icon-uniFE" />
+      <IconFont name="icon-tags" />
     </div>
   );
 };
