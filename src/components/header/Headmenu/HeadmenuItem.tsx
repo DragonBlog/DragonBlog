@@ -23,7 +23,7 @@ export const HeadMenuItem = ({
         isActive ? "text-accent" : "hover:text-accent"
       )}
     >
-      <div className="overflow-hidden bg-base-100">
+      <div>
         {isActive && (
           <motion.i
             className="inline-block"
