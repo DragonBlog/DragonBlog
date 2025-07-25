@@ -1,0 +1,9 @@
+---
+import { Header } from "@/components/header";
+import Layout from "./Layout.astro";
+---
+
+<Layout>
+  <Header client:load transition:persist transition:animate="none" />
+  <slot />
+</Layout>
