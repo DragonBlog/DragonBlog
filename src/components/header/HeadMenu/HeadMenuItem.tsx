@@ -1,27 +1,68 @@
 import { IconFont } from "@/components/IconFont";
+import { useAppStore } from "@/store";
+import { useDebounceFn } from "ahooks";
 import clsx from "clsx";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import { useMemo, useState } from "react";
 
 type HeadMenuItemProps = {
-  title: string;
-  href: string;
+  name: string;
+  link: string;
   icon: string;
-  isActive?: boolean;
+  children?: {
+    name: string;
+    link: string;
+    icon: string;
+  }[];
 };
 
 export const HeadMenuItem = ({
-  title,
-  href,
+  name,
+  link,
   icon,
-  isActive,
+  children,
 }: HeadMenuItemProps) => {
+  const pathName = useAppStore((store) => store.pathname);
+
+  const { isActive, childPath } = useMemo(() => {
+    let childPath: undefined | string = pathName.replace(link, "");
+
+    const isActive =
+      link === pathName ||
+      (children && children.some((child) => child.link === childPath));
+
+    if (!isActive) {
+      childPath = undefined;
+    }
+
+    return { isActive, childPath };
+  }, [pathName]);
+
+  const current = useMemo(() => {
+    if (childPath && children) {
+      return children.find((item) => item.link === childPath) || { name, icon };
+    }
+    return { name, icon };
+  }, [name, icon, childPath, children]);
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { run } = useDebounceFn(setIsDropdownOpen, {
+    wait: 300,
+  });
+
   return (
     <a
-      href={href}
+      href={link}
       className={clsx(
-        "relative block px-4 py-1.5",
+        "relative block px-4 py-1.5 group",
         isActive ? "text-accent" : "hover:text-accent"
       )}
+      onMouseEnter={() => {
+        setIsDropdownOpen(true);
+      }}
+      onMouseLeave={() => {
+        run(false);
+      }}
     >
       <div>
         {isActive && (
@@ -34,11 +75,12 @@ export const HeadMenuItem = ({
               damping: 30,
             }}
           >
-            <IconFont name={icon} />
+            <IconFont name={current.icon} />
           </motion.i>
         )}
-        <span>{title}</span>
+        <span className="ml-1">{current.name}</span>
       </div>
+
       {isActive && (
         <motion.div
           layoutId="menu-bottom"
@@ -48,6 +90,41 @@ export const HeadMenuItem = ({
           }}
         ></motion.div>
       )}
+
+      <AnimatePresence>
+        {isDropdownOpen && children && (
+          <motion.div
+            className="absolute w-30 translate-x-[-50%] left-[50%] opacity-0"
+            initial={{
+              top: 60,
+            }}
+            animate={{
+              opacity: 1,
+              top: 40,
+            }}
+            exit={{ opacity: 0, top: 60 }}
+            onMouseEnter={() => run(true)}
+            onMouseLeave={() => run(false)}
+          >
+            <ul className="relative shadow bg-base-100/90 rounded-lg overflow-hidden">
+              {children.map((child) => (
+                <li
+                  key={child.link}
+                  className="flex justify-center items-center w-full p-1 py-2 text-base-content hover:text-accent hover:bg-accent/10 transition"
+                >
+                  <a
+                    href={`${link}${child.link}`}
+                    className="flex items-center gap-2"
+                  >
+                    <IconFont name={child.icon} />
+                    <span>{child.name}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </a>
   );
 };

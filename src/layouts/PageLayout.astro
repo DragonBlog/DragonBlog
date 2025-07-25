@@ -5,5 +5,7 @@ import Layout from "./Layout.astro";
 
 <Layout>
   <Header client:load transition:persist transition:animate="none" />
-  <slot />
+  <div class="py-[64px] h-full w-full">
+    <slot />
+  </div>
 </Layout>

@@ -10,8 +10,6 @@ type HeadMenuProps = {
 };
 
 export function HeadMenu({ isBgShow }: HeadMenuProps) {
-  const [pathName] = useAppStore((store) => [store.pathname]);
-
   const [{ x, y, radius }, setValue] = useState({
     x: 0,
     y: 0,
@@ -52,15 +50,17 @@ export function HeadMenu({ isBgShow }: HeadMenuProps) {
       ></div>
       <LayoutGroup>
         <div className="text-sm px-4 flex">
-          {menus.map((menu) => (
-            <HeadMenuItem
-              key={menu.name}
-              href={menu.link}
-              title={menu.name}
-              icon={menu.icon}
-              isActive={pathName === menu.link}
-            />
-          ))}
+          {menus.map((menu) => {
+            return (
+              <HeadMenuItem
+                key={menu.name}
+                link={menu.link}
+                name={menu.name}
+                icon={menu.icon}
+                children={menu.children}
+              />
+            );
+          })}
         </div>
       </LayoutGroup>
     </nav>
