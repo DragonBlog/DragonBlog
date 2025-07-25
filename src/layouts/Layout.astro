@@ -15,8 +15,9 @@ const pathname = Astro.url.pathname;
     <script src="/iconfont.js" is:inline data-astro-rerun></script>
     <ClientRouter />
   </head>
-  <body class="relative">
+  <body class="relative overflow-hidden">
     <Provider pathname={pathname} client:load transition:persist />
     <slot />
+    
   </body>
 </html>

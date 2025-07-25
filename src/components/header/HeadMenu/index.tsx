@@ -1,6 +1,5 @@
 import { menus } from "@/config.json";
 import { HeadMenuItem } from "./HeadMenuItem";
-import { useAppStore } from "@/store";
 import { LayoutGroup } from "motion/react";
 import { useState } from "react";
 import clsx from "clsx";

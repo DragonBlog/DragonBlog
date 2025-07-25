@@ -1,6 +1,7 @@
 import { useAppStore } from "@/store";
 import { HeadMenu } from "./HeadMenu";
 import { Logo } from "./Logo";
+import { HeaderDrawer } from "./HeaderDrawer";
 
 export const Header = () => {
   const { isMobile } = useAppStore();
@@ -11,6 +12,7 @@ export const Header = () => {
       <div className="max-w-5xl h-full mx-auto grid grid-cols-[64px_auto_64px] md:px-4">
         <div className="flex justify-center items-center">
           <Logo />
+          <HeaderDrawer />
         </div>
         <div className="flex justify-center items-center">
           <HeadMenu isBgShow />
