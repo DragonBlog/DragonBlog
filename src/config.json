@@ -77,12 +77,12 @@
       "children": [
         {
           "name": "分类",
-          "link": "/categories",
+          "link": "/archives/categories",
           "icon": "icon-category"
         },
         {
           "name": "标签",
-          "link": "/tags",
+          "link": "/archives/tags",
           "icon": "icon-biaoqian"
         }
       ]

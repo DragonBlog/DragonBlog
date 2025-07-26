@@ -24,26 +24,19 @@ export const HeadMenuItem = ({
 }: HeadMenuItemProps) => {
   const pathName = useAppStore((store) => store.pathname);
 
-  const { isActive, childPath } = useMemo(() => {
-    let childPath: undefined | string = pathName.replace(link, "");
-
-    const isActive =
-      link === pathName ||
-      (children && children.some((child) => child.link === childPath));
-
-    if (!isActive) {
-      childPath = undefined;
+  const { isActive, current } = useMemo(() => {
+    let isActive = pathName === link;
+    let current: { name: string; icon: string } | undefined = undefined;
+    if (!isActive && children) {
+      current = children.find((child) => child.link === pathName);
+      isActive = !!current;
     }
 
-    return { isActive, childPath };
+    return {
+      isActive,
+      current: current || { name, icon },
+    };
   }, [pathName]);
-
-  const current = useMemo(() => {
-    if (childPath && children) {
-      return children.find((item) => item.link === childPath) || { name, icon };
-    }
-    return { name, icon };
-  }, [name, icon, childPath, children]);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { run } = useDebounceFn(setIsDropdownOpen, {
@@ -112,10 +105,7 @@ export const HeadMenuItem = ({
                   key={child.link}
                   className="flex justify-center items-center w-full p-1 py-2 text-base-content hover:text-accent hover:bg-accent/10 transition"
                 >
-                  <a
-                    href={`${link}${child.link}`}
-                    className="flex items-center gap-2"
-                  >
+                  <a href={child.link} className="flex items-center gap-2">
                     <IconFont name={child.icon} />
                     <span>{child.name}</span>
                   </a>
