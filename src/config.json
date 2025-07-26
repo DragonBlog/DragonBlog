@@ -73,17 +73,17 @@
     {
       "name": "文章",
       "link": "/archives",
-      "icon": "icon-archive",
+      "icon": "icon-16",
       "children": [
         {
           "name": "分类",
-          "link": "/categories",
+          "link": "/archives/categories",
           "icon": "icon-category"
         },
         {
           "name": "标签",
-          "link": "/tags",
-          "icon": "icon-tags"
+          "link": "/archives/tags",
+          "icon": "icon-biaoqian"
         }
       ]
     },
