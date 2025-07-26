@@ -1,7 +1,14 @@
 ---
 import PageLayout from "@/layouts/PageLayout.astro";
+import { getCollection } from "astro:content";
+import TimelineComponent from "@/components/Timeline";
+const blogs = await getCollection("blogs");
 ---
 
 <PageLayout>
-  <div>timeline</div>
+  <div
+    class="mx-auto"
+  >
+    <TimelineComponent client:only="react" blogs={blogs} />
+  </div>
 </PageLayout>
