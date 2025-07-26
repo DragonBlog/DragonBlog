@@ -1,6 +1,6 @@
 import { menus } from "@/config.json";
 import { HeadMenuItem } from "./HeadMenuItem";
-import { LayoutGroup } from "motion/react";
+import { AnimatePresence, LayoutGroup, motion } from "motion/react";
 import { useState } from "react";
 import clsx from "clsx";
 
@@ -32,7 +32,7 @@ export function HeadMenu({ isBgShow }: HeadMenuProps) {
   };
 
   return (
-    <nav
+    <motion.nav
       className={clsx(
         "relative rounded-full group pointer-events-auto duration-200",
         {
@@ -41,6 +41,9 @@ export function HeadMenu({ isBgShow }: HeadMenuProps) {
         }
       )}
       onMouseMove={handleMouseMove}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, ease: "linear" }}
     >
       <div
         className="absolute -z-1  -inset-px rounded-full opacity-0 group-hover:opacity-10 duration-500"
@@ -62,6 +65,6 @@ export function HeadMenu({ isBgShow }: HeadMenuProps) {
           })}
         </div>
       </LayoutGroup>
-    </nav>
+    </motion.nav>
   );
 }

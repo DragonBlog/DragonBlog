@@ -16,7 +16,7 @@ export const Drawer = (
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              className="absolute bg-base-content/50 z-10 top-0 left-0 w-screen h-screen overflow-hidden"
+              className="absolute bg-base-content/50 z-10 top-0 left-0 w-screen h-screen overflow-hidden flex justify-start"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -27,7 +27,7 @@ export const Drawer = (
               }}
             >
               <motion.div
-                className="bg-base-100 rounded-tr-lg rounded-br-lg w-[200px] h-full"
+                className="bg-base-100 rounded-tr-lg rounded-br-lg h-full"
                 initial={{
                   x: -200,
                 }}
@@ -41,6 +41,9 @@ export const Drawer = (
                   type: "spring",
                   stiffness: 300,
                   damping: 30,
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
                 }}
               >
                 {props.children}
