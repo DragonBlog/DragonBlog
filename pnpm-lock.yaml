@@ -32,6 +32,9 @@ importers:
       daisyui:
         specifier: ^5.0.46
         version: 5.0.46
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       gsap:
         specifier: ^3.13.0
         version: 3.13.0
