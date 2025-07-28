@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
-import { motion, useAnimate, useInView } from "motion/react";
 import dayjs from "dayjs";
+import { motion, useAnimate, useInView } from "motion/react";
 import { group, sort } from "radash";
-import { div } from "motion/react-client";
+import { useEffect, useRef } from "react";
+
 type Blog = {
   id: string;
   body?: string;
@@ -47,6 +47,17 @@ const Timeline = ({ blogs }: TimelineProps) => {
   //sort 只对数字排序
   const years = sort(Object.keys(groupedBlogs), (year) => Number(year), true);
 
+  const [lengthMap] = years.reduce(
+    (acc, year) => {
+      let [record, count] = acc;
+      const length = groupedBlogs[Number(year)]?.length || 0;
+      record[year] = count;
+      count += length;
+      return [record, count] as [Record<string, number>, number];
+    },
+    [{}, 0] as [Record<string, number>, number]
+  );
+
   const [scope, animate] = useAnimate();
   const ref = useRef(null);
   const isInView = useInView(ref);
@@ -73,7 +84,9 @@ const Timeline = ({ blogs }: TimelineProps) => {
                 key={blog.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.15 }}
+                transition={{
+                  delay: (lengthMap[year] + index) * 0.15,
+                }}
                 className="text-sm px-4 py-2"
               >
                 <div className="flex items-center w-1/2">
