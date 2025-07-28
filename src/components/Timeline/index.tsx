@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { motion, useAnimate, useInView } from "motion/react";
+import { motion, stagger, useAnimate, useInView } from "motion/react";
 import { group, sort } from "radash";
 import { useEffect, useRef } from "react";
 
@@ -47,26 +47,14 @@ const Timeline = ({ blogs }: TimelineProps) => {
   //sort 只对数字排序
   const years = sort(Object.keys(groupedBlogs), (year) => Number(year), true);
 
-  const [lengthMap] = years.reduce(
-    (acc, year) => {
-      let [record, count] = acc;
-      const length = groupedBlogs[Number(year)]?.length || 0;
-      record[year] = count;
-      count += length;
-      return [record, count] as [Record<string, number>, number];
-    },
-    [{}, 0] as [Record<string, number>, number]
-  );
-
   const [scope, animate] = useAnimate();
-  const ref = useRef(null);
-  const isInView = useInView(ref);
+  const isInView = useInView(scope);
 
   useEffect(() => {
     if (isInView) {
-      animate("li", { opacity: 1, y: 0 });
+      animate(".blog-item", { opacity: 1, y: 0 }, { delay: stagger(0.15) });
     }
-  }, [isInView, animate]);
+  }, [isInView]);
 
   return (
     <motion.ul ref={scope}>
@@ -83,11 +71,7 @@ const Timeline = ({ blogs }: TimelineProps) => {
               <motion.li
                 key={blog.id}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: (lengthMap[year] + index) * 0.15,
-                }}
-                className="text-sm px-4 py-2"
+                className="text-sm px-4 py-2 blog-item"
               >
                 <div className="flex items-center w-1/2">
                   <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
