@@ -12,12 +12,31 @@ const pathname = Astro.url.pathname;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{TITLE}</title>
+    <script is:inline>
+      const THEME_KEY = "theme";
+
+      function getFinalTheme(pref = localStorage.getItem(THEME_KEY)) {
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+          .matches
+          ? "dark"
+          : "light";
+        return pref === "system" ? systemTheme : pref;
+      }
+
+      document.documentElement.setAttribute("data-theme", getFinalTheme());
+
+      document.addEventListener("astro:before-swap", (event) => {
+        const theme = getFinalTheme();
+
+        event.newDocument.documentElement.setAttribute("data-theme", theme);
+      });
+    </script>
+
     <script src="/iconfont.js" is:inline data-astro-rerun></script>
     <ClientRouter />
   </head>
   <body class="relative overflow-hidden">
     <Provider pathname={pathname} client:load transition:persist />
     <slot />
-    
   </body>
 </html>

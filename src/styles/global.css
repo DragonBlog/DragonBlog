@@ -2,7 +2,6 @@
 @plugin "daisyui" {
   themes: light --default, dark --prefersdark;
 }
-@custom-variant dark (&:where([data-theme=night], [data-theme=night] *));
 
 .gray {
   filter: grayscale(1) !important;

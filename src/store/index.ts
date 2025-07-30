@@ -2,30 +2,26 @@ import type { ExtractState } from "zustand";
 import { combine } from "zustand/middleware";
 import { shallow } from "zustand/shallow";
 import { useStoreWithEqualityFn } from "zustand/traditional";
-import { persist, createJSONStorage } from "zustand/middleware";
 import { createStore } from "zustand/vanilla";
 
 export type Theme = "light" | "dark" | "system";
+export const THEME_KEY = "theme";
 
 export const appStore = createStore(
-  persist(
-    combine(
-      {
-        theme: "system" as Theme,
-        isMobile: false,
-        pathname: "/",
-      },
-      (set) => ({
-        setTheme: (theme: Theme) => set({ theme }),
-        setIsMobile: (isMobile: boolean) => set({ isMobile }),
-        setPathname: (pathname: string) => set({ pathname }),
-      })
-    ),
+  combine(
     {
-      name: "ThemeStore",
-      storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ theme: state.theme }),
-    }
+      theme: "system" as Theme,
+      isMobile: false,
+      pathname: "/",
+    },
+    (set) => ({
+      setTheme: (theme: Theme) => {
+        localStorage.setItem(THEME_KEY, theme);
+        set({ theme });
+      },
+      setIsMobile: (isMobile: boolean) => set({ isMobile }),
+      setPathname: (pathname: string) => set({ pathname }),
+    })
   )
 );
 
