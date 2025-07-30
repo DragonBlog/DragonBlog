@@ -1,25 +1,10 @@
-import { useAppStore, THEME_KEY } from "@/store";
+import { useAppStore } from "@/store";
 import { useEffect } from "react";
-import {
-  getLocalTheme,
-  getSystemTheme,
-  changePageTheme,
-  isGary,
-} from "@/utils/theme";
+import { applyTheme } from "@/utils/theme";
 
-import type { Theme } from "@/store";
-import { th } from "motion/react-client";
-
-export function applyTheme(theme: Theme) {
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const finalTheme =
-    theme === "system" ? (prefersDark ? "dark" : "light") : theme;
-  document.documentElement.setAttribute("data-theme", finalTheme);
-}
 export const useInit = () => {
-  const [setIsMobile, setTheme, theme] = useAppStore((state) => [
+  const [setIsMobile, theme] = useAppStore((state) => [
     state.setIsMobile,
-    state.setTheme,
     state.theme,
   ]);
 
@@ -34,16 +19,28 @@ export const useInit = () => {
   }, [setIsMobile]);
 
   useEffect(() => {
-    const local = getLocalTheme();
-    const system = getSystemTheme();
-    if (local === "system") {
-      changePageTheme(system);
-    } else {
-      changePageTheme(local);
-    }
-    if (isGary()) {
-      document.documentElement.classList.add("gray");
-    }
-    console.log("zhixingl ");
-  }, [theme, setTheme]);
+    applyTheme(theme);
+    const handler = (event: any) => {
+      event.newDocument.documentElement.setAttribute("data-theme", theme);
+    };
+
+    document.addEventListener("astro:before-swap", handler);
+
+    return () => {
+      document.removeEventListener("astro:before-swap", handler);
+    };
+  }, [theme]);
+  useEffect(() => {
+    if (theme !== "system") return;
+
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const onChange = () => {
+      applyTheme("system");
+    };
+
+    mql.addEventListener("change", onChange);
+
+    return () => mql.removeEventListener("change", onChange);
+  }, [theme]);
 };
