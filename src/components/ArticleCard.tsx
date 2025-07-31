@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import dayjs from "dayjs";
-import { motion } from "motion/react";
+import { motion, useMotionValueEvent, useScroll } from "motion/react";
 
 type Props = {
   title?: string;
@@ -22,7 +22,10 @@ export const ArticleCard = ({
   isRight,
 }: Props) => {
   const formateDate = dayjs(date).format("YYYY-MM-DD");
-
+  const { scrollYProgress } = useScroll();
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    console.log("Scroll Y Progress: ", latest);
+  });
   return (
     <motion.div
       className={clsx(
@@ -36,6 +39,14 @@ export const ArticleCard = ({
         transform: isRight ? "translateX(10%)" : "translateX(-10%)",
       }}
       whileInView={{ opacity: 1, transform: "translateX(0)" }}
+      viewport={{
+        amount: 0.3,
+        once: true,
+      }}
+      transition={{
+        duration: 0.8,
+        type: "spring",
+      }}
     >
       <figure
         className={clsx("md:w-1/2", {
