@@ -1,11 +1,11 @@
 import { useAppStore } from "@/store";
 import { useEffect } from "react";
+import { applyTheme } from "@/utils/theme";
 
 export const useInit = () => {
-  const [isAutoTheme, setTheme, setIsMobile] = useAppStore((state) => [
-    state.isAutoTheme,
-    state.setTheme,
+  const [setIsMobile, theme] = useAppStore((state) => [
     state.setIsMobile,
+    state.theme,
   ]);
 
   useEffect(() => {
@@ -15,27 +15,33 @@ export const useInit = () => {
       setIsMobile(e.matches);
     };
     widthMql.addEventListener("change", handleWidthChange);
-
-    return () => {
-      widthMql.removeEventListener("change", handleWidthChange);
-    };
+    return () => widthMql.removeEventListener("change", handleWidthChange);
   }, [setIsMobile]);
 
   useEffect(() => {
-    const theme = window.matchMedia("(prefers-color-scheme: dark)");
-    if (isAutoTheme) {
-      setTheme(theme.matches ? "dark" : "light");
-    }
-    const handleThemeChange = (e: MediaQueryListEvent) => {
-      if (isAutoTheme) {
-        setTheme(e.matches ? "dark" : "light");
-      }
+    applyTheme(theme);
+    const handler = (event: any) => {
+      event.newDocument.documentElement.setAttribute("data-theme", theme);
     };
 
-    theme.addEventListener("change", handleThemeChange);
+    document.addEventListener("astro:before-swap", handler);
 
     return () => {
-      theme.removeEventListener("change", handleThemeChange);
+      document.removeEventListener("astro:before-swap", handler);
     };
-  }, [isAutoTheme, setTheme]);
+  }, [theme]);
+
+  useEffect(() => {
+    if (theme !== "system") return;
+
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const onChange = () => {
+      applyTheme("system");
+    };
+
+    mql.addEventListener("change", onChange);
+
+    return () => mql.removeEventListener("change", onChange);
+  }, [theme]);
 };

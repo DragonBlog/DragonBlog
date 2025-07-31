@@ -2,6 +2,7 @@ import { useAppStore } from "@/store";
 import { HeadMenu } from "./HeadMenu";
 import { Logo } from "./Logo";
 import { HeaderDrawer } from "./HeaderDrawer";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 import { AnimatePresence, LayoutGroup } from "motion/react";
 
 export const Header = () => {
@@ -18,7 +19,10 @@ export const Header = () => {
           <div className="flex justify-center items-center">
             {isMobile ? <Logo /> : <HeadMenu isBgShow />}
           </div>
-          <div className="flex justify-center items-center">search</div>
+
+          <div className="flex justify-center items-center">
+            <ThemeSwitcher />
+          </div>
         </div>
       </AnimatePresence>
     </header>
