@@ -33,15 +33,11 @@ export const useInit = () => {
 
   useEffect(() => {
     if (theme !== "system") return;
-
     const mql = window.matchMedia("(prefers-color-scheme: dark)");
-
     const onChange = () => {
       applyTheme("system");
     };
-
     mql.addEventListener("change", onChange);
-
     return () => mql.removeEventListener("change", onChange);
   }, [theme]);
 };
