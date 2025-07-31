@@ -21,7 +21,7 @@ export const useInit = () => {
   useEffect(() => {
     applyTheme(theme);
     const handler = (event: any) => {
-      event.newDocument.documentElement.setAttribute("data-theme", theme);
+      applyTheme(theme, event.newDocument);
     };
 
     document.addEventListener("astro:before-swap", handler);

@@ -1,7 +1,9 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
+  themes: light --default, dark --prefersdark, night, coffee;
 }
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *,[data-theme=night], [data-theme=night] *));
 
 .gray {
   filter: grayscale(1) !important;

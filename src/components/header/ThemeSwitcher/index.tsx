@@ -10,7 +10,7 @@ export const ThemeSwitcher = () => {
   return (
     <div className="relative mr-14">
       <div
-        className="flex h-8 items-center rounded-full border border-gray-300 gap-2 px-2 relative"
+        className="flex h-8 items-center rounded-full border border-base-300 dark:border-base-content/60 gap-2 px-2 relative"
         role="radiogroup"
       >
         <motion.div
@@ -19,7 +19,7 @@ export const ThemeSwitcher = () => {
           transition={{ type: "spring" }}
         ></motion.div>
         <button
-          className="size-5 flex items-center justify-center"
+          className="size-5 flex items-center justify-center cursor-pointer"
           type="button"
           onClick={() => {
             setTheme("light");
@@ -29,7 +29,7 @@ export const ThemeSwitcher = () => {
           <IconFont name="icon-taiyang" className="text-base w-4 h-4" />
         </button>
         <button
-          className="size-5 flex items-center justify-center"
+          className="size-5 flex items-center justify-center cursor-pointer"
           type="button"
           onClick={() => {
             setTheme("system");
@@ -39,7 +39,7 @@ export const ThemeSwitcher = () => {
           <IconFont name="icon-system1" className="text-base w-4 h-4" />
         </button>
         <button
-          className="size-5 flex items-center justify-center"
+          className="size-5 flex items-center justify-center cursor-pointer"
           type="button"
           onClick={() => {
             setTheme("dark");

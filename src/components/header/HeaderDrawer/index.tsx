@@ -11,7 +11,7 @@ export const HeaderDrawer = () => {
     <Drawer
       trigger={
         <motion.div
-          className="btn btn-sm btn-circle"
+          className="btn btn-sm btn-circle dark:border-base-content/60"
           layoutId="logo"
           initial={{ rotate: -180 }}
           animate={{ rotate: 0 }}
