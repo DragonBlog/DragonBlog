@@ -30,6 +30,7 @@ export const useInit = () => {
       document.removeEventListener("astro:before-swap", handler);
     };
   }, [theme]);
+
   useEffect(() => {
     if (theme !== "system") return;
 

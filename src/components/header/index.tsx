@@ -22,7 +22,6 @@ export const Header = () => {
 
           <div className="flex justify-center items-center">
             <ThemeSwitcher />
-            search
           </div>
         </div>
       </AnimatePresence>

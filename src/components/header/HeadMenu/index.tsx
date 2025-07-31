@@ -1,6 +1,6 @@
 import { menus } from "@/config.json";
 import { HeadMenuItem } from "./HeadMenuItem";
-import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import { LayoutGroup, motion } from "motion/react";
 import { useState } from "react";
 import clsx from "clsx";
 
