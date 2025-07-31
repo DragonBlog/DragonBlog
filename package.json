@@ -14,7 +14,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "ahooks": "^3.9.0",
-    "astro": "^5.11.0",
+    "astro": "^5.12.6",
     "clsx": "^2.1.1",
     "daisyui": "^5.0.46",
     "dayjs": "^1.11.13",
@@ -23,6 +23,7 @@
     "ogl": "^1.0.11",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "sharp": "^0.34.3",
     "tailwindcss": "^4.1.11",
     "use-sync-external-store": "^1.5.0",
     "zustand": "^5.0.6"

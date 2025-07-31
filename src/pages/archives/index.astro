@@ -1,7 +1,35 @@
 ---
+import { ArticleCard } from "@/components/ArticleCard";
 import PageLayout from "@/layouts/PageLayout.astro";
+import { getCollection } from "astro:content";
+import dayjs from "dayjs";
+const blogs = await getCollection("blogs");
+
+const sortedBlogs = blogs.sort((a, b) => {
+  return dayjs(b.data.date).diff(dayjs(a.data.date));
+});
 ---
 
 <PageLayout>
-  <div>文章</div>
+  <div class="max-w-4xl mx-auto px-4 pb-10 flex flex-col gap-6">
+    {
+      sortedBlogs.map((blog, index) => (
+        <div>
+          <ArticleCard
+            client:load
+            title={
+              blog.data.title ??
+              blog.body?.split("\n")[0].replaceAll(/#/g, "").trim()
+            }
+            date={blog.data.date}
+            tags={blog.data.tags}
+            categories={blog.data.categories}
+            cover={blog.data.cover}
+            body={blog.body?.slice(0, 300)}
+            isRight={index % 2 === 0}
+          />
+        </div>
+      ))
+    }
+  </div>
 </PageLayout>
