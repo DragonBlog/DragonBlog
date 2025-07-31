@@ -36,10 +36,7 @@ export const ThemeSwitcher = () => {
           }}
           aria-label="系统模式"
         >
-          <IconFont
-            name="icon-gensuixitongzhuti"
-            className="text-primary w-4 h-4"
-          />
+          <IconFont name="icon-system1" className="text-primary w-4 h-4" />
         </button>
         <button
           className="size-5 flex items-center justify-center"
@@ -49,7 +46,7 @@ export const ThemeSwitcher = () => {
           }}
           aria-label="暗色模式"
         >
-          <IconFont name="icon-yueliang" className="text-primary w-4 h-4" />
+          <IconFont name="icon-yueliang2" className="text-primary w-4 h-4" />
         </button>
       </div>
     </div>
