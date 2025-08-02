@@ -6,12 +6,14 @@ const blogs = defineCollection({
     pattern: "**/*.{md,mdx}",
     base: "./src/blogs",
   }),
-  schema: z.object({
-    title: z.optional(z.string()),
-    date: z.optional(z.date()),
-    tags: z.optional(z.array(z.string())),
-    categories: z.optional(z.array(z.string())),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.optional(z.string()),
+      date: z.optional(z.date()),
+      tags: z.optional(z.array(z.string())),
+      categories: z.optional(z.array(z.string())),
+      cover: z.optional(z.string()),
+    }),
 });
 
 export const collections = {
