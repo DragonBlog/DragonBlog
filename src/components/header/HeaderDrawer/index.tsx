@@ -1,17 +1,15 @@
 import { Drawer } from "@/components/Drawer";
 import { IconFont } from "@/components/IconFont";
 import { menus } from "@/config.json";
-import { motion, AnimatePresence } from "motion/react";
-import { useState } from "react";
+import { motion } from "motion/react";
+import { navigate } from "astro:transitions/client";
 
 export const HeaderDrawer = () => {
-  const [openMenuIndex, setOpenMenuIndex] = useState<number | null>(null);
-
   return (
     <Drawer
       trigger={
         <motion.div
-          className="btn btn-sm btn-circle dark:border-base-content/60"
+          className="btn btn-sm btn-circle"
           layoutId="logo"
           initial={{ rotate: -180 }}
           animate={{ rotate: 0 }}
@@ -20,63 +18,40 @@ export const HeaderDrawer = () => {
           <IconFont className="cursor-pointer" name="icon-menu" />
         </motion.div>
       }
-    >
-      <div className="w-2xs h-full flex flex-col justify-center items-center">
-        <div className="flex flex-col gap-4 w-full px-25">
-          {menus.map((menu, index) => (
-            <div key={index}>
-              <motion.a
-                href={menu.link}
-                className="flex items-center gap-2 py-1 hover:text-accent transition"
-                initial={{ opacity: 0, transform: "translateX(-100px)" }}
-                animate={{ opacity: 1, transform: "translateX(0)" }}
-                transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
-                onClick={(e) => {
-                  if (menu.children) {
-                    e.preventDefault();
-                    setOpenMenuIndex(openMenuIndex === index ? null : index);
+      container={(close) => {
+        return (
+          <div className="w-2xs h-full flex flex-col justify-center items-center">
+            <div className="flex flex-col gap-4">
+              {menus
+                .flatMap((i) => {
+                  if (i.children) {
+                    return [i, ...i.children];
+                  } else {
+                    return i;
                   }
-                }}
-              >
-                <IconFont name={menu.icon} />
-                <span className="ml-1">{menu.name}</span>
-              </motion.a>
-              <AnimatePresence>
-                {menu.children && openMenuIndex === index && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="pl-6"
-                  >
-                    {menu.children.map((child, childIndex) => (
-                      <motion.a
-                        key={childIndex}
-                        href={child.link}
-                        className="flex items-center gap-2 py-1 hover:text-accent transition"
-                        initial={{
-                          opacity: 0,
-                          transform: "translateX(-100px)",
-                        }}
-                        animate={{ opacity: 1, transform: "translateX(0)" }}
-                        exit={{ opacity: 0, transform: "translateX(-100px)" }}
-                        transition={{
-                          duration: 0.3,
-                          delay: childIndex * 0.05 + 0.1,
-                        }}
-                      >
-                        <IconFont name={child.icon} />
-                        <span className="ml-1">{child.name}</span>
-                      </motion.a>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                })
+                .map((menu, index) => {
+                  return (
+                    <motion.a
+                      key={index}
+                      className="flex items-center gap-2 hover:text-accent transition cursor-pointer"
+                      initial={{ opacity: 0, transform: "translateX(-100px)" }}
+                      whileInView={{ opacity: 1, transform: "translateX(0)" }}
+                      transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
+                      onClick={() => {
+                        close();
+                        navigate(menu.link);
+                      }}
+                    >
+                      <IconFont name={menu.icon} />
+                      <span className="ml-1">{menu.name}</span>
+                    </motion.a>
+                  );
+                })}
             </div>
-          ))}
-        </div>
-      </div>
-    </Drawer>
+          </div>
+        );
+      }}
+    ></Drawer>
   );
 };

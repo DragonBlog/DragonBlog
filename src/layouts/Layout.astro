@@ -19,5 +19,6 @@ const pathname = Astro.url.pathname;
   <body class="relative overflow-hidden bg-base-200">
     <Provider pathname={pathname} client:load transition:persist />
     <slot />
+    <div id="drawer"></div>
   </body>
 </html>

@@ -1,7 +1,22 @@
 import { useAppStore } from "@/store";
 import { useEffect } from "react";
-import { applyTheme } from "@/utils/theme";
-
+import type { Theme } from "@/store";
+import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
+import { isGary } from "@/utils/theme";
+export function init(theme: Theme, e?: TransitionBeforeSwapEvent) {
+  const newDocument = e?.newDocument || document;
+  const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+  const finalTheme = theme === "system" ? systemTheme : theme;
+  if (isGary()) {
+    newDocument.documentElement.classList.add("gray");
+  }
+  newDocument.documentElement.setAttribute(
+    "data-theme",
+    finalTheme === "dark" ? "night" : "light"
+  );
+}
 export const useInit = () => {
   const [setIsMobile, theme] = useAppStore((state) => [
     state.setIsMobile,
@@ -19,11 +34,10 @@ export const useInit = () => {
   }, [setIsMobile]);
 
   useEffect(() => {
-    applyTheme(theme);
-    const handler = (event: any) => {
-      applyTheme(theme, event.newDocument);
+    init(theme);
+    const handler = (event: TransitionBeforeSwapEvent) => {
+      init(theme, event);
     };
-
     document.addEventListener("astro:before-swap", handler);
 
     return () => {
@@ -33,15 +47,11 @@ export const useInit = () => {
 
   useEffect(() => {
     if (theme !== "system") return;
-
     const mql = window.matchMedia("(prefers-color-scheme: dark)");
-
     const onChange = () => {
-      applyTheme("system");
+      init("system");
     };
-
     mql.addEventListener("change", onChange);
-
     return () => mql.removeEventListener("change", onChange);
   }, [theme]);
 };

@@ -1,12 +1,11 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { createPortal } from "react-dom";
 
-export const Drawer = (
-  props: React.PropsWithChildren<{
-    trigger?: React.ReactNode;
-  }>
-) => {
+export const Drawer = (props: {
+  trigger?: React.ReactNode;
+  container: (close: () => void) => React.ReactNode;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -46,12 +45,14 @@ export const Drawer = (
                   e.stopPropagation();
                 }}
               >
-                {props.children}
+                {props.container(() => {
+                  setIsOpen(false);
+                })}
               </motion.div>
             </motion.div>
           )}
         </AnimatePresence>,
-        document.body
+        document.querySelector("#drawer")!
       )}
     </>
   );

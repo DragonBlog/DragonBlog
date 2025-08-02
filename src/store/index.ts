@@ -3,9 +3,8 @@ import { combine, persist } from "zustand/middleware";
 import { shallow } from "zustand/shallow";
 import { useStoreWithEqualityFn } from "zustand/traditional";
 import { createStore } from "zustand/vanilla";
-
-export type Theme = "light" | "dark" | "system";
 export const THEME_KEY = "theme";
+export type Theme = "light" | "dark" | "system";
 
 export const appStore = createStore(
   persist(
