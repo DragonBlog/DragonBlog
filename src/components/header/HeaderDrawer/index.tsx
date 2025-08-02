@@ -33,6 +33,7 @@ export const HeaderDrawer = () => {
                 .map((menu, index) => {
                   return (
                     <motion.a
+                      key={index}
                       className="flex items-center gap-2 hover:text-accent transition cursor-pointer"
                       initial={{ opacity: 0, transform: "translateX(-100px)" }}
                       whileInView={{ opacity: 1, transform: "translateX(0)" }}
