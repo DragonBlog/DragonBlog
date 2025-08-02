@@ -1,4 +1,5 @@
 ---
+import ClickSpark from "@/components/ClickSpark/ClickSpark";
 import { Provider } from "@/components/provider";
 import "@/styles/global.css";
 import { TITLE } from "astro:env/client";
@@ -18,7 +19,9 @@ const pathname = Astro.url.pathname;
   </head>
   <body class="relative overflow-hidden bg-base-200">
     <Provider pathname={pathname} client:load transition:persist />
-    <slot />
+    <ClickSpark client:only="react">
+      <slot />
+    </ClickSpark>
     <div id="drawer"></div>
   </body>
 </html>
