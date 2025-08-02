@@ -2,6 +2,7 @@
 import { defineConfig, envField } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@astrojs/react";
+import { remarkReadingTime } from "./plugins/remark-reading-time";
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,4 +19,7 @@ export default defineConfig({
     },
   },
   integrations: [react()],
+  markdown: {
+    remarkPlugins: [remarkReadingTime],
+  },
 });
