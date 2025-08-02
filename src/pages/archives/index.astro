@@ -13,21 +13,26 @@ const sortedBlogs = blogs.sort((a, b) => {
 <PageLayout>
   <div class="max-w-4xl mx-auto px-4 pb-10 flex flex-col gap-6">
     {
-      sortedBlogs.map((blog, index) => (
-        <ArticleCard
-          client:load
-          title={
-            blog.data.title ??
-            blog.body?.split("\n")[0].replaceAll(/#/g, "").trim()
-          }
-          date={blog.data.date}
-          tags={blog.data.tags}
-          categories={blog.data.categories}
-          cover={blog.data.cover}
-          body={blog.body?.slice(0, 300)}
-          isRight={index % 2 === 0}
-        />
-      ))
+      sortedBlogs.map((blog, index) => {
+        const frontmatter: any = blog.rendered?.metadata?.frontmatter;
+        return (
+          <ArticleCard
+            client:load
+            title={
+              blog.data.title ??
+              blog.body?.split("\n")[0].replaceAll(/#/g, "").trim()
+            }
+            date={blog.data.date}
+            tags={blog.data.tags}
+            categories={blog.data.categories}
+            cover={blog.data.cover}
+            body={blog.body?.slice(0, 300)}
+            isRight={index % 2 === 0}
+            readingTime={frontmatter?.readingTime}
+            words={frontmatter?.text}
+          />
+        );
+      })
     }
   </div>
 </PageLayout>
