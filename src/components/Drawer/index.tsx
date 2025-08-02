@@ -16,7 +16,7 @@ export const Drawer = (
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              className="absolute bg-base-content/50 z-10 top-0 left-0 w-screen h-screen overflow-hidden flex justify-start"
+              className="absolute bg-base-content/50 dark:bg-neutral/50 z-10 top-0 left-0 w-screen h-screen overflow-hidden flex justify-start"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

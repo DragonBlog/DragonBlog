@@ -1,11 +1,11 @@
 import type { ExtractState } from "zustand";
-import { combine } from "zustand/middleware";
+import { combine, persist } from "zustand/middleware";
 import { shallow } from "zustand/shallow";
 import { useStoreWithEqualityFn } from "zustand/traditional";
-import { persist, createJSONStorage } from "zustand/middleware";
 import { createStore } from "zustand/vanilla";
-export const THEME_KEY = "theme";
+
 export type Theme = "light" | "dark" | "system";
+export const THEME_KEY = "theme";
 
 export const appStore = createStore(
   combine(

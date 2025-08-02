@@ -1,6 +1,6 @@
 import { menus } from "@/config.json";
 import { HeadMenuItem } from "./HeadMenuItem";
-import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import { LayoutGroup, motion } from "motion/react";
 import { useState } from "react";
 import clsx from "clsx";
 
@@ -35,8 +35,12 @@ export function HeadMenu({ isBgShow }: HeadMenuProps) {
     <motion.nav
       className={clsx(
         "relative rounded-full group pointer-events-auto duration-200",
+        // {
+        //   "bg-gradient-to-b from-zinc-50/70 to-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-md dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10":
+        //     isBgShow,
+        // }
         {
-          "bg-gradient-to-b from-zinc-50/70 to-white/90 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-md dark:from-zinc-900/70 dark:to-zinc-800/90 dark:ring-zinc-100/10":
+          "bg-gradient-to-b from-base-300/20 to-base-100/60 shadow-lg shadow-base-content/5 ring-1 ring-base-content/5 dark:ring-base-content/20 backdrop-blur-md dark:from-base-300/70 dark:to-base-content/10":
             isBgShow,
         }
       )}
