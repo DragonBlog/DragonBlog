@@ -1,11 +1,26 @@
 import { useAppStore } from "@/store";
 import { useEffect } from "react";
-
+import type { Theme } from "@/store";
+import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
+import { isGary } from "@/utils/theme";
+export function init(theme: Theme, e?: TransitionBeforeSwapEvent) {
+  const newDocument = e?.newDocument || document;
+  const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+  const finalTheme = theme === "system" ? systemTheme : theme;
+  if (isGary()) {
+    newDocument.documentElement.classList.add("gray");
+  }
+  newDocument.documentElement.setAttribute(
+    "data-theme",
+    finalTheme === "dark" ? "night" : "light"
+  );
+}
 export const useInit = () => {
-  const [isAutoTheme, setTheme, setIsMobile] = useAppStore((state) => [
-    state.isAutoTheme,
-    state.setTheme,
+  const [setIsMobile, theme] = useAppStore((state) => [
     state.setIsMobile,
+    state.theme,
   ]);
 
   useEffect(() => {
@@ -15,27 +30,28 @@ export const useInit = () => {
       setIsMobile(e.matches);
     };
     widthMql.addEventListener("change", handleWidthChange);
-
-    return () => {
-      widthMql.removeEventListener("change", handleWidthChange);
-    };
+    return () => widthMql.removeEventListener("change", handleWidthChange);
   }, [setIsMobile]);
 
   useEffect(() => {
-    const theme = window.matchMedia("(prefers-color-scheme: dark)");
-    if (isAutoTheme) {
-      setTheme(theme.matches ? "dark" : "light");
-    }
-    const handleThemeChange = (e: MediaQueryListEvent) => {
-      if (isAutoTheme) {
-        setTheme(e.matches ? "dark" : "light");
-      }
+    init(theme);
+    const handler = (event: TransitionBeforeSwapEvent) => {
+      init(theme, event);
     };
-
-    theme.addEventListener("change", handleThemeChange);
+    document.addEventListener("astro:before-swap", handler);
 
     return () => {
-      theme.removeEventListener("change", handleThemeChange);
+      document.removeEventListener("astro:before-swap", handler);
     };
-  }, [isAutoTheme, setTheme]);
+  }, [theme]);
+
+  useEffect(() => {
+    if (theme !== "system") return;
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = () => {
+      init("system");
+    };
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, [theme]);
 };
