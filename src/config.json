@@ -122,5 +122,8 @@
     "microsoftClarity": {
       "projectId": ""
     }
+  },
+  "contentDirectory": {
+    "blog": "./src/blogs"
   }
 }
